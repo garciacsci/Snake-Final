@@ -1,65 +1,25 @@
-/* Homework main */
-
-/* 
- * File:    main.cpp
- * Author:  Christopher Garcia
- * Purpose: 
- * Date:    April 30, 2020
- */
+/* Contains the main function */
 
 // Preprocessor Directives
-#define XCURSES
+#include <cstdlib>
 
-#include <cstdlib> 
+using namespace std;
+
+#include "init.h"
 #include <curses.h>
-#include <cmath> 
-#include <iostream>
-#include <iomanip>
 
-
-using namespace std;
-
-
-
-
-using namespace std;
+// 1. Declare the structure object boardInfo with file scope
+info boardInfo;
 
 int main(int argc, char **argv)
 {
-     int ch;
+    initXCurses(argc, argv);
+    
+    endwin();
 
-     Xinitscr(argc,argv);
-     cbreak();
-     keypad(stdscr,TRUE);
-     nodelay(stdscr,FALSE);
-     noecho();
-     printw("Hello World\n");
-     refresh();
-     while(1)
-     {
-          ch = getch();
-          if (ch == 'Q')
-          {
-               printw("Q Pressed, Press Any Key to Exit");
-               refresh();
-               break;
-          }
-     }
-     getch();
-     endwin();
-
-     return 0;
+     // Exit Program
+     exit(EXIT_SUCCESS);
 }
 
 
 //----------------------------------------------------------------------------//
-
-// Define User-Defined Functions
-/*
-{
-
-    // Exit Function
-    return;
-}
- * */
-//yes
