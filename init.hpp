@@ -37,6 +37,7 @@ struct info
     
     // Stores Game Speed
     int speed; 
+    
     // More Variables May Be Added... 
 };
 
