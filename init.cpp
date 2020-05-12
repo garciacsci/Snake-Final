@@ -26,12 +26,14 @@ void initXCurses(int argc, char** argv)
     // Turn on Keypad
     keypad(stdscr, TRUE); 
 
-    // Match screen to current
-    if (getch()==KEY_RESIZE) 
-
-    // terminal size
-    resize_term(0,0); 
-
+    /*      Optional Code, and seems to 
+            pause initialization until
+            a key is pressed
+    // Match screen to current terminal size
+    if (getch()==KEY_RESIZE)    
+        resize_term(0,0);     
+    */
+    
     // Don't echo input
     noecho(); 
 
@@ -39,13 +41,7 @@ void initXCurses(int argc, char** argv)
     start_color(); 
 
     // Do not wait for input
-    nodelay(stdscr, TRUE); 
-    
-    /*
-    // Match screen to current terminal size
-    if (getch() == KEY_RESIZE)
-        resize_term(0,0);
-    */
+    nodelay(stdscr, TRUE);         
  
     // Exit Function
     return;
@@ -54,11 +50,31 @@ void initXCurses(int argc, char** argv)
 // Initialize game info structure data
 void initGameInfo(ostream &fout)
 {
+    
+    // Declare Variables
+    int row=0, column=0;
+    
     // Initialize board array to 0's
-    boardInfo.board[NROWS][NCOLS]={0};
+    gameInfo.board[NROWS][NCOLS]={0};
+    
+    // Initialize borders to -10
+    while(column<NCOLS)
+    {
+    for (int row=0; row<NROWS; row++)
+        {
+            gameInfo.board[row][0] = -10;
+            gameInfo.board[row][NCOLS-1] = -10;
+            gameInfo.board[0][column] = -10;
+            gameInfo.board[NROWS-1][column] = -10;
+        }
+    column++;
+    }        
     
     // Initialize game speed to 1
-    boardInfo.speed = 1;
+    gameInfo.speed = 1;
+    
+    // Maybe do some formatting for the output file????
+    
     
     // Exit Function
     return;
