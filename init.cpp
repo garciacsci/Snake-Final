@@ -1,10 +1,14 @@
 /* Contains all initialization functions */
 
+// Define XCURSES
 #define XCURSES
+
+// Include header files
 #include <curses.h>
-#include "init.h"
+#include "init.hpp"
 
 //----------------------------------------------------------------------------//
+// Initialize the XCurses Library
 void initXCurses(int argc, char** argv)
 {
     // Initialize X Display Screen
@@ -43,6 +47,19 @@ void initXCurses(int argc, char** argv)
         resize_term(0,0);
     */
  
+    // Exit Function
+    return;
+}
+
+// Initialize game info structure data
+void initGameInfo(ostream &fout)
+{
+    // Initialize board array to 0's
+    boardInfo.board[NROWS][NCOLS]={0};
+    
+    // Initialize game speed to 1
+    boardInfo.speed = 1;
+    
     // Exit Function
     return;
 }
