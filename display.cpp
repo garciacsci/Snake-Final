@@ -3,6 +3,7 @@
 // Include header files
 #include "init.hpp"
 #include "display.hpp"
+#include "color.hpp"
 
 // Name Space
 using namespace std;
