@@ -18,11 +18,14 @@ void move();
 // Accessor function to determine head snake position
 void getHeadPos(int &Y, int &X);
  
+// Decrement all of the snake parts after a move
+void decrementSnake();
+
 private:
-    /*Private members of the class include variables to store the snake’s head 
-     * position, the direction the snake is travelling, and the current length 
-     * of the snake. If the snake’s direction is LEFT (defined by the  
-     * enumeration), the snake should continuously move to the left, etc. 
+    int headRow, headCol, length;
+    Dir direction=UP;
+    
+    /*
      * You may add to the class definition, as appropriate. Recall that the 
      * class declaration occurs in snake.hpp, and contains the declarations for 
      * the function prototypes and the data members only. The class member 
