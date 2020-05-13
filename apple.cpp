@@ -25,12 +25,15 @@ apple::apple()
     apple1.appleR = row;
     apple1.appleC = col;
     mvprintw(row, col, "A");
+    gameInfo.board[row][col] = -1;
     apple2.appleR = row2;
     apple2.appleC = row2; 
     mvprintw(row2, col2, "A");
+    gameInfo.board[row2][col2] = -1;
     apple3.appleR = row3;
     apple3.appleC = col3;
     mvprintw(row3, col3, "A");
+    gameInfo.board[row3][col3] = -1;
     
 }
 
@@ -47,7 +50,9 @@ void apple::newApple()
     appleR = row;
     appleC = col;
     mvprintw(prevR, prevC, " ");
+    gameInfo.board[prevR][prevC] = 0;
     mvprintw(row, col, "A");
+    gameInfo.board[row][col] = -1;
 }
 
 void apple::getApplePos(int &appleRow, int &appleCol)
