@@ -36,12 +36,12 @@ void printBoard()
             else if (gameInfo.board[row][column] <0)
             {
                 if (gameInfo.board[row][column] == -10)
-                    mvaddch(row, column, ACS_BLOCK);
+                    color(row, column, -10);
                 else
-                    mvaddch(row, column, 'A');
+                    color(row, column, -1);
             }
             else
-                mvaddch(row, column, 'S');
+                color(row, column, 1);
         }
     row++;
     }
