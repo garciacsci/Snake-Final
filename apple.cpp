@@ -24,44 +24,62 @@ apple::apple()
     
     apple1.appleR = row;
     apple1.appleC = col;
+    mvprintw(row, col, "A");
     apple2.appleR = row2;
     apple2.appleC = row2; 
+    mvprintw(row2, col2, "A");
     apple3.appleR = row3;
     apple3.appleC = col3;
+    mvprintw(row3, col3, "A");
     
 }
 
 void apple::newApple1()
 {
-    int row = 0, col = 0;
+    int row = 0, col = 0, prevR, prevC;
+    
+    apple1.appleR = prevR;
+    apple1.appleC = prevC;
     
     row = (rand() % 48)+0;
     col = (rand() % 96)+0;
     
     apple1.appleR = row;
     apple1.appleC = col;
+    mvprintw(prevR, prevC, " ");
+    mvprintw(row, col, "A");
 }
 
 void apple::newApple2()
 {
-    int row2 = 0, col2 = 0;
+    int row2 = 0, col2 = 0, prevR, prevC;
+    
+    apple2.appleR = prevR;
+    apple2.appleC = prevC;
     
     row2 = (rand() % 48)+0;
     col2 = (rand() % 96)+0;
     
     apple2.appleR = row2;
     apple2.appleC = col2;
+    mvprintw(prevR, prevC, " ");
+    mvprintw(row2, col2, "A");
 }
 
 void apple::newApple3()
 {
-    int row3 = 0, col3 = 0;
+    int row3 = 0, col3 = 0, prevR, prevC;
+    
+    apple3.appleR = prevR;
+    apple3.appleC = prevC;
     
     row3 = (rand() % 48)+0;
     col3 = (rand() % 96)+0;
     
     apple3.appleR = row3;
     apple3.appleC = col3;
+    mvprintw(prevR, prevC, " ");
+    mvprintw(row3, col3, "A");
 }
 
 
