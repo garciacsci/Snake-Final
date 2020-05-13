@@ -22,6 +22,9 @@ const int NCOLS = 96;
 // Keyboard Directions
 enum Dir {UP, DOWN, LEFT, RIGHT}; 
 
+// Game Outcomes
+enum Res {WIN, LOSS, GAMEOVER};
+
 //// Function Prototypes
 // Initialize the XCurses Library
 void initXCurses(int argc, char** argv);
@@ -37,6 +40,9 @@ struct info
     
     // Stores Game Speed
     int speed; 
+    
+    // Games outcome
+    Res outcome;
     
     // More Variables May Be Added... 
 };
