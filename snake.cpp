@@ -6,6 +6,7 @@
 // Include libraries
 #include <curses.h>
 #include <iostream>
+#include <unistd.h>
 
 // Include header files
 #include "init.hpp"
@@ -17,10 +18,18 @@
 Snake::Snake()
 {
     // Initialize snake starting position
-    gameInfo.board[(NROWS-1)/2][(NCOLS-1)/2] = 1;
+    gameInfo.board[(NROWS-1)/2][(NCOLS-1)/2] = 5;
+    gameInfo.board[(NROWS)-1/2+1][(NCOLS-1)/2] = 4;
+    gameInfo.board[(NROWS-1)/2+2][(NCOLS-1)/2] = 3;
+    gameInfo.board[(NROWS-1)/2+3][(NCOLS-1)/2] = 2;
+    gameInfo.board[(NROWS-1)/2+4][(NCOLS-1)/2] = 1;
+    
+    // Initialize head position
+    headRow = (NROWS-1)/2;
+    headCol = (NCOLS-1)/2;
     
     // Store length of snake
-    length = 1;
+    length = 5;
     
     // Exit function
     return;
@@ -41,26 +50,33 @@ Snake::Snake(int l)
         {
             if (row%2==0)
             {
-                for (int column=NCOLS-2; column>0 && l>0; column--)
+                for (int c=NCOLS-2; c>0 && l>0; c--)
                 {
-                    gameInfo.board[row][column] = snek;
+                    gameInfo.board[row][c] = snek;
                     snek++;
                     l--;
+                    column = c;
                 }
             }
 
             else
             {
-                for (int column=1; column<NCOLS-1 && l>0; column++)
+                for (int c=1; c<NCOLS-1 && l>0; c++)
                 {
-                    gameInfo.board[row][column] = snek;
+                    gameInfo.board[row][c] = snek;
                     snek++;
                     l--;
+                    column = c;
                 }
             }
         }
     row++;
     }   
+    
+    // Initialize head position
+    headRow = row;
+    headCol = column;
+    
     
     // Exit function
     return;
@@ -72,89 +88,90 @@ void Snake::move()
     // Declare variables
     int ch=0;
     
+    // Game speed
+    usleep(gameInfo.speed*(500000/50));
+    
     cout << "headrow is: " << headRow << endl;
     cout << "headcol is: " << headCol << "\n\n";
     
-    // Get snake head position
-    getHeadPos(headRow, headCol);
-    
-    cout << "headrow is now: " << headRow << endl;
-    cout << "headcol is now: " << headCol << "\n\n";
-    
-    // Get character
+    // Get character from user
+    cout << "Getting character...\n";    
     ch = getch();
+    cout << "Character is: " << ch << "\n\n";
     
-    // Get input from user
-    if( ch != KEY_UP && ch != KEY_DOWN && ch != KEY_LEFT && ch != KEY_RIGHT)
-    {
-        cout << "No input from user!\n";
-        if(direction == UP)                         
+    // Move snake accordingly
+    if(ch == KEY_UP)
+        { 
+            if (headRow-1 >=0 && direction != DOWN)
             {
-                gameInfo.board[headRow-1][headCol] = length+1;                                                
-            }            
-        else if(direction == DOWN)
-            {                                        
-                gameInfo.board[headRow+1][headCol] = length+1;          
-            }
-        else if(direction == LEFT)
-            {                                        
-                gameInfo.board[headRow][headCol-1] = length+1;          
-            } 
-        else if(direction == RIGHT)
-            {                                        
-                gameInfo.board[headRow][headCol+1] = length+1;          
-            }
-    }
-    else
-    {
-        if(ch == KEY_UP)
-            {                                        
-                gameInfo.board[headRow-1][headCol] = length+1;  
+                headRow--; 
                 direction = UP;
             }
-        else if(direction == KEY_DOWN)
-            {                                        
-                gameInfo.board[headRow+1][headCol] = length+1;    
+        }
+    else if(ch == KEY_DOWN)
+        {                          
+            if (headRow+1 < NROWS && direction != UP)
+            {
+                headRow++; 
                 direction = DOWN;
             }
-     else if(direction == KEY_LEFT)
-            {                                        
-                gameInfo.board[headRow][headCol-1] = length+1;      
+        }
+    else if(ch == KEY_LEFT)
+        {                             
+            if (headCol-1 > 0 && direction != RIGHT)
+            {
+                headCol--;    
                 direction = LEFT;
-            } 
-        else if(direction == KEY_RIGHT)
-            {                                        
-                gameInfo.board[headRow][headCol+1] = length+1;      
+            }
+        } 
+    else if(ch == KEY_RIGHT && direction != LEFT)
+        {                                
+            if (headCol+1 < NCOLS)
+            {
+                headCol++;  
                 direction = RIGHT;
             }
-    }
-    
-    // Decrement the snake
-    decrementSnake();
-    
+        }    
+    else if(direction == UP && direction != DOWN)                         
+        {
+            if (headRow-1 >0)
+            {
+                headRow--;
+            }
+        }            
+    else if(direction == DOWN && direction != UP)
+        {              
+            if (headRow+1 < NROWS)
+            {
+                headRow++;      
+            }
+        }
+    else if(direction == LEFT && direction != RIGHT)
+        {                        
+            if (headCol-1 > 0)
+            {
+                headCol--;     
+            }
+        } 
+    else if(direction == RIGHT)
+        {       
+            if (headCol+1 < NCOLS && direction != LEFT)
+            {
+                headCol++;     
+            }
+        }          
+    cout << "Moved Snake\n\n";
+        
     // Exit function
-    return;
+        return;
 }          
 
 // Accessor function to determine head snake position
 void Snake::getHeadPos(int &Y, int &X)
 {
-    // Declare Variables
-    int row=0, column=0, max=0;
-    
-    // Find snake head (greatest integer on board)
-    while (row<NROWS)
-    {
-        for (column=0; column<NCOLS; column++)
-        {
-            if (gameInfo.board[row][column] > max);
-            {
-                Y = row;
-                X = column;
-            }
-        }
-        row++;    
-    }
+    // Return head position
+    Y = headRow;
+    X = headCol;
     
     // Exit function
     return;
@@ -165,13 +182,32 @@ void Snake::decrementSnake()
 {
     // Declare Variables
     int row=0, column=0;
-    while (row<NROWS && row>0)
+    
+    while (row<NROWS)
     {
-        for (column=0; column<NCOLS && column>0; column++)
+        for (column=0; column<NCOLS; column++)
         {
-            if (gameInfo.board[row][column] > 0)
-                gameInfo.board[row][column]--;
+            if (gameInfo.board[row][column]>0)
+            {
+                cout << "Element Decremented!\n";
+                --gameInfo.board[row][column];
+            }
         }
         row++;    
     }
+    
+    // Exit function
+    return;
+}
+
+// Increment the stored length of the snake
+void Snake::incrementSnakeLength()
+{
+    length++;
+}
+
+// Returns the length of the snake plus one
+int Snake::tempHead()
+{
+    return (length+1);
 }
