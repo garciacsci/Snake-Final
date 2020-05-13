@@ -35,7 +35,7 @@ int main(int argc, char **argv)
     
     /* 2. Declare positional variables (if needed) to determine 
           if the snake has eaten an apple.*/
-    int snakeRow, snakeCol, appleRow, appleCol;
+    int snakeRow, snakeCol, apple1Row, apple1Col, apple2Row, apple2Col, apple3Row, apple3Col;
     
     // 3. Open a file for saving relevant game information.
     fout.open("gameData.txt");
