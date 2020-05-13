@@ -21,4 +21,10 @@ void gameOver();
 // “Press any Key” Function
 void keypress();
 
+// Call appropriate post game screen
+void postGame(Res x);
+
+// Print the results of the game
+void results();
+
 #endif /* DISPLAY_HPP */
