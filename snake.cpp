@@ -8,8 +8,8 @@
 #include <iostream>
 
 // Include header files
-#include "snake.hpp"
 #include "init.hpp"
+#include "snake.hpp"
 
 //// Function prototypes
 /// Snake member function definitions
@@ -18,6 +18,12 @@ Snake::Snake()
 {
     // Initialize snake starting position
     gameInfo.board[(NROWS-1)/2][(NCOLS-1)/2] = 1;
+    
+    // Store length of snake
+    length = 1;
+    
+    // Exit function
+    return;
 }
 
 // Constructor with length initialization
@@ -25,6 +31,9 @@ Snake::Snake(int l)
 {
     // Declare Variables
     int row=1, column=1, snek=1;
+    
+    // Store length of snake
+    length = l;
     
     // Start from the top left and 
     while(row<NROWS && l>0)
@@ -52,95 +61,80 @@ Snake::Snake(int l)
         }
     row++;
     }   
+    
+    // Exit function
+    return;
 }
 
 // Move member function
 void Snake::move()
 {
- /* 
-    int row = (LINES-1)/2, row2 = ((LINES-1)/2) + 1, row3 = ((LINES-1)/2) + 2, prevR;
-    int col = (COLS-1)/2, col2 = (COLS-1)/2, col3 = (COLS-1)/2, prevC;
+    // Declare variables
+    int ch=0;
     
-    mvaddch(row, col, ACS_BLOCK);
-    //mvaddch(row2, col2, ACS_BLOCK);
-    //mvaddch(row3, col3, ACS_BLOCK);
+    cout << "headrow is: " << headRow << endl;
+    cout << "headcol is: " << headCol << "\n\n";
     
-    int ch='\0';
+    // Get snake head position
+    getHeadPos(headRow, headCol);
     
-    while(1)
-    {        
-        ch = getch();
-          
-        if(ch == KEY_RIGHT)
-        {
-            do
+    cout << "headrow is now: " << headRow << endl;
+    cout << "headcol is now: " << headCol << "\n\n";
+    
+    // Get character
+    ch = getch();
+    
+    // Get input from user
+    if( ch != KEY_UP && ch != KEY_DOWN && ch != KEY_LEFT && ch != KEY_RIGHT)
+    {
+        cout << "No input from user!\n";
+        if(direction == UP)                         
             {
-                //prevR = row3;
-                //prevC = col3;
-                //row3 = row2;
-                //col3 = col2;
-                //row2 = row;
-                //col2 = col;
-                //mvaddch(prevR, prevC, ' ');
-                mvaddch(row, col, ' ');
-                col++;
-                mvaddch(row, col, ACS_BLOCK);
-                //mvaddch(row2, col2, ACS_BLOCK);
-                //mvaddch(row3, col3, ACS_BLOCK);
-            } while(ch == KEY_RIGHT || ch == KEY_LEFT);
-            
-        }
-        else if(ch == KEY_LEFT)
-        {
-            prevR = row3;
-            prevC = col3;
-            row3 = row2;
-            col3 = col2;
-            row2 = row;
-            col2 = col;
-            mvaddch(prevR, prevC, ' ');
-            col--;
-            mvaddch(row, col, ACS_BLOCK);
-            mvaddch(row2, col2, ACS_BLOCK);
-            mvaddch(row3, col3, ACS_BLOCK);
-        }
-        else if(ch == KEY_UP)
-        {
-            prevR = row3;
-            prevC = col3;
-            row3 = row2;
-            col3 = col2;
-            row2 = row;
-            col2 = col;
-            mvaddch(prevR, prevC, ' ');
-            row--;
-            mvaddch(row, col, ACS_BLOCK);
-            mvaddch(row2, col2, ACS_BLOCK);
-            mvaddch(row3, col3, ACS_BLOCK);
-        }    
-        else if (ch == KEY_DOWN)
-        {
-            prevR = row3;
-            prevC = col3;
-            row3 = row2;
-            col3 = col2;
-            row2 = row;
-            col2 = col;
-            mvaddch(prevR, prevC, ' ');
-            row++;
-            mvaddch(row, col, ACS_BLOCK);
-            mvaddch(row2, col2, ACS_BLOCK);
-            mvaddch(row3, col3, ACS_BLOCK);
-        }
-    }      
+                gameInfo.board[headRow-1][headCol] = length+1;                                                
+            }            
+        else if(direction == DOWN)
+            {                                        
+                gameInfo.board[headRow+1][headCol] = length+1;          
+            }
+        else if(direction == LEFT)
+            {                                        
+                gameInfo.board[headRow][headCol-1] = length+1;          
+            } 
+        else if(direction == RIGHT)
+            {                                        
+                gameInfo.board[headRow][headCol+1] = length+1;          
+            }
+    }
+    else
+    {
+        if(ch == KEY_UP)
+            {                                        
+                gameInfo.board[headRow-1][headCol] = length+1;  
+                direction = UP;
+            }
+        else if(direction == KEY_DOWN)
+            {                                        
+                gameInfo.board[headRow+1][headCol] = length+1;    
+                direction = DOWN;
+            }
+     else if(direction == KEY_LEFT)
+            {                                        
+                gameInfo.board[headRow][headCol-1] = length+1;      
+                direction = LEFT;
+            } 
+        else if(direction == KEY_RIGHT)
+            {                                        
+                gameInfo.board[headRow][headCol+1] = length+1;      
+                direction = RIGHT;
+            }
+    }
     
-    nodelay(stdscr, FALSE);
-    getch();
-    endwin();    
-*/        
+    // Decrement the snake
+    decrementSnake();
+    
     // Exit function
     return;
-}
+}          
 
 // Accessor function to determine head snake position
 void Snake::getHeadPos(int &Y, int &X)
@@ -155,14 +149,29 @@ void Snake::getHeadPos(int &Y, int &X)
         {
             if (gameInfo.board[row][column] > max);
             {
-                y = row;
-                x = column;
+                Y = row;
+                X = column;
             }
         }
-        fout << "\n";
         row++;    
     }
     
     // Exit function
     return;
+}
+
+// Decrement snake after move
+void Snake::decrementSnake()
+{
+    // Declare Variables
+    int row=0, column=0;
+    while (row<NROWS && row>0)
+    {
+        for (column=0; column<NCOLS && column>0; column++)
+        {
+            if (gameInfo.board[row][column] > 0)
+                gameInfo.board[row][column]--;
+        }
+        row++;    
+    }
 }
