@@ -3,6 +3,7 @@
 // Include header files
 #include "init.hpp"
 #include "apple.hpp"
+#include "color.hpp"
 
 //// Function definitions
 /// Apple member function definitions
