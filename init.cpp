@@ -25,14 +25,6 @@ void initXCurses(int argc, char** argv)
 
     // Turn on Keypad
     keypad(stdscr, TRUE); 
-
-    /*      Optional Code, and seems to 
-            pause initialization until
-            a key is pressed
-    // Match screen to current terminal size
-    if (getch()==KEY_RESIZE)    
-        resize_term(0,0);     
-    */
     
     // Don't echo input
     noecho(); 
@@ -71,7 +63,8 @@ void initGameInfo(ostream &fout)
     }        
     
     // Initialize game speed to 1
-    gameInfo.speed = 1;
+    gameInfo.speed = 10;
+    
     
     // Maybe do some formatting for the output file????
     
