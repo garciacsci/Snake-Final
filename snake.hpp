@@ -21,6 +21,12 @@ void getHeadPos(int &Y, int &X);
 // Decrement all of the snake parts after a move
 void decrementSnake();
 
+// Increment the stored length of the snake
+void incrementSnakeLength();
+
+// Returns the length of the snake plus one
+int tempHead();
+
 private:
     int headRow, headCol, length;
     Dir direction=UP;
