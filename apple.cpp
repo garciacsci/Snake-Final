@@ -1,64 +1,71 @@
 /* Contains all “apple” class member function definitions */
 
-#define XCURSES
-#include <curses.h>
-#include <iostream>
-#include <cstdlib>
+// Include header files
 #include "init.hpp"
 #include "apple.hpp"
 
-using namespace std;
+//// Function definitions
+/// Apple member function definitions
+// Default Constructor
+ Apple::Apple()
+ {
+     // Generate and initialize apple position
+    appleRow = rand()%(NROWS-2)+1;
+    appleCol = rand()%(NCOLS-2)+1;
+    
+    // Generate Apple
+    gameInfo.board[appleRow][appleCol] = -1;
+    
+    // Exit function
+    return;
+ }
 
-apple::apple()
-{
-    int row = 0, col = 0;
-    int row2 = 0, col2 = 0;
-    int row3 = 0, col3 = 0;
-    
-    row = (rand() % 48)+0;
-    col = (rand() % 96)+0;
-    row2 = (rand() % 48)+0;
-    col2 = (rand() % 96)+0;
-    row3 = (rand() % 48)+0;
-    col3 = (rand() % 96)+0;
-    
-    apple1.appleR = row;
-    apple1.appleC = col;
-    mvprintw(row, col, "A");
-    gameInfo.board[row][col] = -1;
-    apple2.appleR = row2;
-    apple2.appleC = row2; 
-    mvprintw(row2, col2, "A");
-    gameInfo.board[row2][col2] = -1;
-    apple3.appleR = row3;
-    apple3.appleC = col3;
-    mvprintw(row3, col3, "A");
-    gameInfo.board[row3][col3] = -1;
-    
-}
+ // Constructor with color initialization
+ Apple::Apple(int c)
+ {
+    // REVISIT FOR COLOR
 
-void apple::newApple()
-{
-    int row = 0, col = 0, prevR, prevC;
-    
-    prevR = appleR;
-    prevC = appleC;
-    
-    row = (rand() % 48)+0;
-    col = (rand() % 96)+0;
-    
-    appleR = row;
-    appleC = col;
-    mvprintw(prevR, prevC, " ");
-    gameInfo.board[prevR][prevC] = 0;
-    mvprintw(row, col, "A");
-    gameInfo.board[row][col] = -1;
-}
+    // Initialize apple position
+   appleRow = rand()%(NROWS-2)+1;
+   appleCol = rand()%(NCOLS-2)+1;
 
-void apple::getApplePos(int &appleRow, int &appleCol)
-{
-    appleRow = appleR;
-    appleCol = appleC;
-}
+   // Generate Apple
+   gameInfo.board[appleRow][appleCol] = -1;
 
+   // Exit function
+   return;
 
+ }
+
+ // Function to help create a new apple
+ void Apple::newApple(int c)
+ {
+     // Generate and initialize apple position
+    appleRow = rand()%(NROWS-2)+1;
+    appleCol = rand()%(NCOLS-2)+1;
+    
+    // Generate Apple
+    gameInfo.board[appleRow][appleCol] = -1;
+
+     // Exit function
+     return;
+ }
+
+ // Accessor function to determine apple position
+ void Apple::getApplePos(int &Y, int &X)
+ {
+     // Return head position
+    Y = appleRow;
+    X = appleCol;
+    
+    // Exit function
+    return;
+     // Exit function
+     return;
+ }
+ 
+ // Increments number of apples eaten
+     void Apple::incrementApplesEaten()
+     {
+         applesEaten++;
+     }
