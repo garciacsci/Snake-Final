@@ -15,10 +15,7 @@ void welcome(void)
     
     // Call on keypress function
     keypress();
-        
-    cout << "Welcome message printed\n";            
-    
-    
+                     
     // Exit function
     return;
 }
@@ -47,7 +44,10 @@ void printBoard()
                 mvaddch(row, column, 'S');
         }
     row++;
-    }    
+    }
+    
+    // Refresh
+    refresh();
     
     // Exit function
     return;
@@ -95,15 +95,43 @@ void gameOver()
 // “Press any Key” Function
 void keypress()
 {    
+    char c; 
+    
     // Print "Press any Key" message
     mvprintw(((NROWS-1)/2), ((NCOLS-1)/2-14), "Press Any Key To Continue...");
     
     // Turn on delay
-    nodelay(stdscr, FALSE);    
+    nodelay(stdscr, FALSE);
+    
+    // Get a character 
+    cout << "Waiting for user to press key...\n";
+    c = getch();    
+    cout << "Character '" << c << "' read in from user!\n";  
+    
     
     // Turn on delay
     nodelay(stdscr, TRUE);
     
     // Exit function
     return;
+}
+
+// Call appropriate post game screen
+void postGame(Res x)
+{
+    if (x == GAMEOVER)
+        gameOver();
+    else if (x == LOSS)
+        loss();
+    else if (x == WIN)
+        win();
+    results();
+}
+
+// Print the results of the game
+void results()
+{
+    
+    // DON'T FORGET TO FINISH THIS
+    mvprintw(((NROWS-1)/2-5), ((NCOLS-1)/2-14), "Press Any Key To Continue...");
 }
