@@ -50,7 +50,7 @@ void apple::newApple()
     mvprintw(row, col, "A");
 }
 
-void apple::getApplePos(int &apple1Row, int &apple1Col)
+void apple::getApplePos(int &appleRow, int &appleCol)
 {
     appleRow = appleR;
     appleCol = appleC;
