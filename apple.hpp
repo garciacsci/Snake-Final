@@ -12,12 +12,8 @@ public:
     int appleR;
     int appleC;
     apple();
-    void newApple1();
-    void newApple2();
-    void newApple3();
-    void getApplePos1(int &apple1Row, int &apple1Col);
-    void getApplePos2(int &apple2Row, int &apple2Col);
-    void getApplePos3(int &apple2Row, int &apple2Col);
+    void newApple();
+    void getApplePos(int &appleRow, int &appleCol);
     
 };
 //objects
