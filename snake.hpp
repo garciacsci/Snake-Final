@@ -1,4 +1,11 @@
-/* Declares a “snake” class to store relevant paddle information */
+/* Snake snake.hpp */
+
+/* 
+ * File:    snake.hpp
+ * Author:  Christopher Garcia
+ * Purpose: Declares a “snake” class to store relevant snake information
+ * Date:    14 May 2020
+ */
 
 #ifndef SNAKE_HPP
 #define SNAKE_HPP
@@ -8,6 +15,9 @@ class Snake
 public:
 // Default Constructor
 Snake();
+
+// Constructor
+void Snake_();
 
 // Constructor with length initialization
 Snake(int l);
@@ -34,7 +44,7 @@ void cut();
 //void correct();
 
 private:
-    int headRow, headCol, length;
+    int headRow, headCol, length=0;
     Dir direction=UP;
     
     /*
