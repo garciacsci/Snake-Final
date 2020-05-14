@@ -1,4 +1,11 @@
-/* Contains all “snake” class member function definitions */
+/* Snake snake.cpp */
+
+/* 
+ * File:    snake.cpp
+ * Author:  Christopher Garcia
+ * Purpose: Contains all “snake” class member function definitions
+ * Date:    14 May 2020
+ */
 
 // Define XCurses
 #define XCURSES
@@ -35,12 +42,37 @@ Snake::Snake()
     // Exit function
     return;
 }
+// Constructor
+void Snake::Snake_()
+{
+    // Initialize snake starting position
+    gameInfo.board[(NROWS-1)/2][(NCOLS-1)/2] = 5;
+    gameInfo.board[(NROWS)-1/2+1][(NCOLS-1)/2] = 4;
+    gameInfo.board[(NROWS-1)/2+2][(NCOLS-1)/2] = 3;
+    gameInfo.board[(NROWS-1)/2+3][(NCOLS-1)/2] = 2;
+    gameInfo.board[(NROWS-1)/2+4][(NCOLS-1)/2] = 1;
+    
+    // Initialize head position
+    headRow = (NROWS-1)/2;
+    headCol = (NCOLS-1)/2;
+    
+    // Store length of snake
+    length=5;    
+    cout << "Length of the snake is: " << length << "\n\n";
+    
+    // Exit function
+    return;
+}
 
 // Constructor with length initialization
 Snake::Snake(int l)
 {
     // Declare Variables
     int row=1, column=1, snek=1;
+    
+    // Exit if l is 0 or negative
+    if (l <= 0)
+        return;
     
     // Store length of snake
     length = l;
@@ -93,15 +125,15 @@ void Snake::move()
     int ch=0;
     
     // Game speed (to help capture inputs)
-    usleep(gameInfo.speed*(5000));
+    usleep(gameInfo.speed*(1000));
     
-    cout << "headrow is: " << headRow << endl;
-    cout << "headcol is: " << headCol << "\n\n";
+    //cout << "headrow is: " << headRow << endl;
+    //cout << "headcol is: " << headCol << "\n\n";
     
     // Get character from user
-    cout << "Getting character...\n";    
+    //cout << "Getting character...\n";    
     ch = getch();
-    cout << "Character is: " << ch << "\n\n";
+    //cout << "Character is: " << ch << "\n\n";
     
     // Move snake accordingly
     if(ch == KEY_UP && direction != DOWN)
