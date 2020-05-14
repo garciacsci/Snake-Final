@@ -1,4 +1,11 @@
-/* Contains all color functions */
+/* Snake color.cpp */
+
+/* 
+ * File:    color.cpp
+ * Author:  Christopher Garcia
+ * Purpose: Contains all color functions
+ * Date:    14 May 2020
+ */
 
 // Define Xcurses
 #define XCURSES
@@ -31,6 +38,6 @@ using namespace std;
  void color(int x)
  {
      
-     // Integrated into printboard function in display.cpp
+     // Integrated into printboard funciton in display.cpp
      
  }
