@@ -3,7 +3,6 @@
 // Include header files
 #include "init.hpp"
 #include "display.hpp"
-#include "color.hpp"
 
 // Name Space
 using namespace std;
@@ -12,11 +11,12 @@ using namespace std;
 void welcome(void)
 {                           
     // Print welcome message
-    mvprintw(((NROWS-1)/2-1), ((NCOLS-1)/2-8), "Welcome to Snake");
+    mvprintw(((NROWS-1)/2-5), ((NCOLS-1)/2-9), "Welcome to Snake");
     
-    // Call on keypress function
-    keypress();
-                     
+    // Call on game difficulty menu function
+    difficultyMenu();        
+    cout << "Game difficulty set to " << gameInfo.difficulty << "!\n\n";                 
+    
     // Exit function
     return;
 }
@@ -36,13 +36,43 @@ void printBoard()
                 mvaddch(row, column, ' ');
             else if (gameInfo.board[row][column] <0)
             {
-                if (gameInfo.board[row][column] == -10)
-                    color(row, column, -10);
-                else
-                    color(row, column, -1);
+                if (gameInfo.board[row][column] == -5)
+                {
+                    attron(COLOR_PAIR(5));
+                    mvaddch(row, column, ACS_BLOCK);
+                    attroff(COLOR_PAIR(5));
+                }
+                else if (gameInfo.board[row][column] == -4)
+                {
+                    attron(COLOR_PAIR(4));
+                    mvaddch(row, column, ACS_BLOCK);
+                    attroff(COLOR_PAIR(4));
+                }
+                else if (gameInfo.board[row][column] == -3)
+                {
+                    attron(COLOR_PAIR(3));
+                    mvaddch(row, column, 'A');
+                    attroff(COLOR_PAIR(3));
+                }
+                else if (gameInfo.board[row][column] == -2)
+                {
+                    attron(COLOR_PAIR(2));
+                    mvaddch(row, column, 'A');
+                    attroff(COLOR_PAIR(2));
+                }
+                else 
+                {
+                    attron(COLOR_PAIR(1));
+                    mvaddch(row, column, 'A');
+                    attroff(COLOR_PAIR(1));
+                }
             }
             else
-                color(row, column, 1);
+            {
+                attron(COLOR_PAIR(gameInfo.snakeColor));
+                mvaddch(row, column, 'S');
+                attroff(COLOR_PAIR(gameInfo.snakeColor));
+            }
         }
     row++;
     }
@@ -117,22 +147,146 @@ void keypress()
     return;
 }
 
+// Post Difficulty Menu
+void difficultyMenu()
+{
+    char c;
+    
+    while(TRUE)
+    {
+        // Print difficulty Message
+        mvprintw(((NROWS-1)/2-1), ((NCOLS-1)/2-9), "Choose Difficulty");
+        
+        attron(COLOR_PAIR(2));
+        mvprintw(((NROWS-1)/2+1), ((NCOLS-1)/2-9), "1.");                
+        mvprintw(((NROWS-1)/2+2), ((NCOLS-1)/2-10), "Easy");
+        attroff(COLOR_PAIR(2));
+        
+        attron(COLOR_PAIR(3));
+        mvprintw(((NROWS-1)/2+2), ((NCOLS-1)/2-4), "Medium");
+        mvprintw(((NROWS-1)/2+1), ((NCOLS-1)/2-2), "2.");
+        attroff(COLOR_PAIR(3));
+        
+        attron(COLOR_PAIR(1));
+        mvprintw(((NROWS-1)/2+2), ((NCOLS-1)/2+4), "Hard");
+        mvprintw(((NROWS-1)/2+1), ((NCOLS-1)/2+5), "3.");
+        attroff(COLOR_PAIR(1));
+
+        // Turn on delay
+        nodelay(stdscr, FALSE);
+
+        // Get a character
+        cout << "Waiting for difficulty...\n";
+        c = getch();
+        cout << "Difficulty " << c << " received!\n\n";
+
+        // Turn off delay
+            nodelay(stdscr, TRUE);
+            
+        // Make sure character is a valid difficulty
+        if (c == '1')
+        {
+            // Update game difficulty
+            gameInfo.difficulty = 1;
+           
+            // Exit function
+            return;        
+        }
+        else if (c == '2')
+        {
+            // Update game difficulty
+            gameInfo.difficulty = 2;
+
+            // Exit function
+            return;        
+        }
+        else if (c == '3')
+        {
+            // Update game difficulty
+            gameInfo.difficulty = 3;
+
+            // Exit function
+            return;        
+        }
+    }    
+}
+
 // Call appropriate post game screen
 void postGame(Res x)
 {
+    // Wipe the Screen
+    clear();
+    refresh();
+    
+    // Print appropriate screen based on result
     if (x == GAMEOVER)
         gameOver();
     else if (x == LOSS)
         loss();
     else if (x == WIN)
-        win();
-    results();
+        win();    
+    
+    // Exit Function
+    return;
 }
 
 // Print the results of the game
-void results()
+void results(int &bestLength, int &bestEaten, int userLength, int userEaten)
 {
+    // Debug output variable
+    int c;
     
-    // DON'T FORGET TO FINISH THIS
-    mvprintw(((NROWS-1)/2-5), ((NCOLS-1)/2-14), "Press Any Key To Continue...");
+    // Print appropriate end screen
+    cout << "Starting post game display...\n";
+    postGame(gameInfo.outcome);
+    cout << "Post game display complete!\n\n";
+    
+    // Wipe Screen
+    clear();
+    refresh();
+    
+    // Print labeling
+    mvprintw(((NROWS-1)/3+2), ((NCOLS-1)/2-8), "You");
+    mvprintw(((NROWS-1)/3+2), (((NCOLS-1)/2)+4), "Best");    
+    mvprintw((((NROWS-1)/3)+4), ((NCOLS-1)/2-22), "Length: ");
+    mvprintw((((NROWS-1)/3)+6), ((NCOLS-1)/2-22), "Apples: ");
+    
+    // Print User scores
+    mvprintw((((NROWS-1)/3)+4), ((NCOLS-1)/2-8), "%d", userLength);
+    mvprintw((((NROWS-1)/3)+6), ((NCOLS-1)/2-8), "%d", userEaten);
+    
+    // Print Best scores
+    mvprintw((((NROWS-1)/3)+4), (((NCOLS-1)/2)+4), "%d", bestLength); 
+    mvprintw((((NROWS-1)/3)+6), (((NCOLS-1)/2)+4), "%d", bestEaten);        
+    
+    // Print Press to exit message
+    mvprintw(((NROWS-1)/2), ((NCOLS-1)/2-12), "Press Any Key To Exit...");
+    
+    // Refresh the screen
+    refresh();
+    
+    // Update high scores if necessary
+    if (userEaten > bestEaten)
+    {
+        cout << "New high score!\n";
+        mvprintw(((NROWS-1)/3-2), ((NCOLS-1)/2-8), "New High Score!");
+        bestLength = userLength;
+        cout << "Best Length: " << bestLength << endl;
+        bestEaten = userEaten;
+        cout << "Best Apples Eaten: " << bestEaten << "\n\n";
+    }
+    
+    // Turn on delay
+    nodelay(stdscr, FALSE);
+    
+    // Get a character 
+    cout << "Waiting for user to press key to exit...\n";
+    c = getch();    
+    cout << "Character '" << c << "' read in from user!\n";  
+        
+    // Turn on delay
+    nodelay(stdscr, TRUE);
+    
+    // Exit function
+    return;
 }
