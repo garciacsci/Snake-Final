@@ -1,4 +1,11 @@
-/* Contains all “apple” class member function definitions */
+/* Snake apple.cpp */
+
+/* 
+ * File:    apple.cpp
+ * Author:  Christopher Garcia
+ * Purpose: Contains all “apple” class member function definitions
+ * Date:    14 May 2020
+ */
 
 // Include header files
 #include "init.hpp"
