@@ -24,8 +24,14 @@ void decrementSnake();
 // Increment the stored length of the snake
 void incrementSnakeLength();
 
-// Returns the length of the snake plus one
-int tempHead();
+// Returns the length of the snake
+int snakeLength();
+
+// Cuts the snake
+void cut();
+
+// Correct Snake offset after being cut
+//void correct();
 
 private:
     int headRow, headCol, length;
