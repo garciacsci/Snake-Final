@@ -1,5 +1,12 @@
-/* Stores global constants, structure data types, enumerations, 
-global data types, and function prototypes for initialization */
+/* Snake init.hpp */
+
+/* 
+ * File:    init.hpp
+ * Author:  Christopher Garcia
+ * Purpose: Stores global constants, structure data types, enumerations, 
+ *          global data types, and function prototypes for initialization
+ * Date:    14 May 2020
+ */
 
 #ifndef INIT_HPP
 #define INIT_HPP
@@ -25,6 +32,9 @@ enum Dir {UP, DOWN, LEFT, RIGHT};
 // Game Outcomes
 enum Res {WIN, LOSS, GAMEOVER};
 
+// Player type
+enum Player {SNAKE, WORM, BOTH};
+
 //// Function Prototypes
 // Initialize the XCurses Library
 void initXCurses(int argc, char** argv);
@@ -39,7 +49,10 @@ struct info
     int board[NROWS][NCOLS]; 
     
     // Stores Game Speed
-    int speed= 7; 
+    int speed= 3; 
+    
+    // Stores player preference 
+    Player preference;
     
     // Game outcome
     Res outcome;
@@ -47,8 +60,17 @@ struct info
     // Snake Color
     int snakeColor;
     
+    // Worm Color
+    int wormColor;
+    
     // Game difficulty
     int difficulty;
+    
+    // Number of boulders that should be on the board
+    int boulder;
+    
+    // Boulder increment progress based on additional apples eaten
+    int progress=0;
 };
 
 // Give gameInfo global scope
