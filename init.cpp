@@ -6,13 +6,14 @@
 // Include header files
 #include <curses.h>
 #include "init.hpp"
+#include "color.hpp"
 
 //----------------------------------------------------------------------------//
 // Initialize the XCurses Library
 void initXCurses(int argc, char** argv)
 {
     // Initialize X Display Screen
-    Xinitscr(argc, argv); 
+    Xinitscr(argc, argv);         
 
     // Relabel Window Title
     PDC_set_title("ECE 71 SNAKE PROJECT");
@@ -54,21 +55,19 @@ void initGameInfo(ostream &fout)
     {
     for (int row=0; row<NROWS; row++)
         {
-            gameInfo.board[row][0] = -10;
-            gameInfo.board[row][NCOLS-1] = -10;
-            gameInfo.board[0][column] = -10;
-            gameInfo.board[NROWS-1][column] = -10;
+            gameInfo.board[row][0] = -5;
+            gameInfo.board[row][NCOLS-1] = -5;
+            gameInfo.board[0][column] = -5;
+            gameInfo.board[NROWS-1][column] = -5;
         }
     column++;
-    }        
+    }
     
-    // Initialize game speed to 1
-    gameInfo.speed = 10;
-    
+    // Make snake a random color
+    gameInfo.snakeColor = ((rand()%3)+1);
     
     // Maybe do some formatting for the output file????
-    
-    
+        
     // Exit Function
     return;
 }
