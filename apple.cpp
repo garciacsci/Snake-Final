@@ -3,53 +3,70 @@
 // Include header files
 #include "init.hpp"
 #include "apple.hpp"
-#include "color.hpp"
 
 //// Function definitions
 /// Apple member function definitions
 // Default Constructor
  Apple::Apple()
- {
-     // Generate and initialize apple position
-    appleRow = rand()%(NROWS-2)+1;
-    appleCol = rand()%(NCOLS-2)+1;
-    
-    // Generate Apple
-    gameInfo.board[appleRow][appleCol] = -1;
-    
-    // Exit function
-    return;
+ {     
+    while(TRUE)
+    {
+        // Generate and initialize apple position
+        appleRow = rand()%(NROWS-2)+1;
+        appleCol = rand()%(NCOLS-2)+1;
+
+        // Make sure taget is empty
+        if (gameInfo.board[appleRow][appleCol] == 0)
+        {    
+            // Generate Apple if it is
+            gameInfo.board[appleRow][appleCol] = -1;
+            
+            // Exit function
+            return;
+        }    
+    }             
  }
 
  // Constructor with color initialization
  Apple::Apple(int c)
  {
-    // REVISIT FOR COLOR
+    while(TRUE)
+    {
+        // Initialize apple position
+        appleRow = rand()%(NROWS-2)+1;
+        appleCol = rand()%(NCOLS-2)+1;
 
-    // Initialize apple position
-   appleRow = rand()%(NROWS-2)+1;
-   appleCol = rand()%(NCOLS-2)+1;
+        // Check that target is empty
+        if (gameInfo.board[appleRow][appleCol] == 0)
+        {
+            // Generate Apple if it is
+            gameInfo.board[appleRow][appleCol] = c*-1;
 
-   // Generate Apple
-   gameInfo.board[appleRow][appleCol] = -1;
-
-   // Exit function
-   return;
-
+            // Exit function
+            return;
+        }
+    }
  }
 
  // Function to help create a new apple
  void Apple::newApple(int c)
  {
-     // Generate and initialize apple position
-    appleRow = rand()%(NROWS-2)+1;
-    appleCol = rand()%(NCOLS-2)+1;
-    
-    // Generate Apple
-    gameInfo.board[appleRow][appleCol] = -1;
+    while(TRUE)
+    {
+        // Initialize apple position
+        appleRow = rand()%(NROWS-2)+1;
+        appleCol = rand()%(NCOLS-2)+1;
 
-     // Exit function
-     return;
+        // Check that target is empty
+        if (gameInfo.board[appleRow][appleCol] == 0)
+        {
+            // Generate Apple if it is
+            gameInfo.board[appleRow][appleCol] = c*-1;
+
+            // Exit function
+            return;
+        }
+    }
  }
 
  // Accessor function to determine apple position
@@ -69,4 +86,10 @@
      void Apple::incrementApplesEaten()
      {
          applesEaten++;
+     }
+     
+// Returns number of apples eaten
+     int Apple::eaten()
+     {
+         return(applesEaten);
      }
