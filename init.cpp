@@ -1,4 +1,11 @@
-/* Contains all initialization functions */
+/* Snake init.cpp */
+
+/* 
+ * File:    init.cpp
+ * Author:  Christopher Garcia
+ * Purpose: Contains all initialization functions
+ * Date:    14 May 2020
+ */
 
 // Define XCURSES
 #define XCURSES
@@ -65,6 +72,9 @@ void initGameInfo(ostream &fout)
     
     // Make snake a random color
     gameInfo.snakeColor = ((rand()%3)+1);
+    
+    // Make worm a random color
+    gameInfo.wormColor = ((rand()%3)+1);
     
     // Maybe do some formatting for the output file????
         
