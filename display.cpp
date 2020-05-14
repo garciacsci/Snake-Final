@@ -340,7 +340,7 @@ void results(int &bestLength, int &bestEaten, int snakeLength, int wormLength, \
     int userLength;
     
     // Add user's lengths
-    userLength = snakeLength = wormLength;
+    userLength = snakeLength + wormLength;
     
     // Print appropriate end screen
     cout << "Starting post game display...\n";
