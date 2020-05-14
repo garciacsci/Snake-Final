@@ -39,12 +39,16 @@ struct info
     int board[NROWS][NCOLS]; 
     
     // Stores Game Speed
-    int speed; 
+    int speed= 7; 
     
-    // Games outcome
+    // Game outcome
     Res outcome;
     
-    // More Variables May Be Added... 
+    // Snake Color
+    int snakeColor;
+    
+    // Game difficulty
+    int difficulty;
 };
 
 // Give gameInfo global scope
