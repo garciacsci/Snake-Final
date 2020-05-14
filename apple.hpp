@@ -21,8 +21,11 @@ public:
      // Increments number of apples eaten
      void incrementApplesEaten();
      
+     // Returns number of apples eaten
+     int eaten();
+     
 private:
-    int appleRow, appleCol, applesEaten, color;    
+    int appleRow, appleCol, applesEaten=0, color;    
     
     
     /*
