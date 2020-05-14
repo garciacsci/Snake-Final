@@ -1,4 +1,11 @@
-/* Contains all display functions */
+/* Snake display.cpp */
+
+/* 
+ * File:    display.cpp
+ * Author:  Christopher Garcia
+ * Purpose: Contains all display functions
+ * Date:    14 May 2020
+ */
 
 // Include header files
 #include "init.hpp"
@@ -11,11 +18,33 @@ using namespace std;
 void welcome(void)
 {                           
     // Print welcome message
-    mvprintw(((NROWS-1)/2-5), ((NCOLS-1)/2-9), "Welcome to Snake");
+    mvprintw(((NROWS-1)/2-5), ((NCOLS-1)/2-9), "Welcome to Snake");    
+    
+    // Key press
+    keypress();
+    
+    // Wipe the Screen
+    clear();
+    refresh();
+    
+    // Call on Player Menu
+    playerMenu();
+    cout << "Player preference set to " << gameInfo.preference << "!\n\n"; 
+    
+    // Wipe the Screen
+    clear();
+    refresh();
     
     // Call on game difficulty menu function
     difficultyMenu();        
-    cout << "Game difficulty set to " << gameInfo.difficulty << "!\n\n";                 
+    cout << "Game difficulty set to " << gameInfo.difficulty << "!\n\n";  
+    
+    // Wipe the Screen
+    clear();
+    refresh();
+    
+    // Set number of boulders equal to diffculty
+    gameInfo.boulder = gameInfo.difficulty;        
     
     // Exit function
     return;
@@ -32,7 +61,8 @@ void printBoard()
     {
         for (column=0; column<NCOLS; column++)
         {
-            if (gameInfo.board[row][column] == 0)
+            if (gameInfo.board[row][column] == 0 || \
+                    gameInfo.board[row][column] == -10)
                 mvaddch(row, column, ' ');
             else if (gameInfo.board[row][column] <0)
             {
@@ -60,14 +90,20 @@ void printBoard()
                     mvaddch(row, column, 'A');
                     attroff(COLOR_PAIR(2));
                 }
-                else 
+                else if (gameInfo.board[row][column] == -1)
                 {
                     attron(COLOR_PAIR(1));
                     mvaddch(row, column, 'A');
-                    attroff(COLOR_PAIR(1));
+                    attroff(COLOR_PAIR(1));                    
+                }
+                else if (gameInfo.board[row][column] < -10)
+                {
+                    attron(COLOR_PAIR(gameInfo.wormColor));
+                    mvaddch(row, column, 'W');
+                    attroff(COLOR_PAIR(gameInfo.wormColor));
                 }
             }
-            else
+            else 
             {
                 attron(COLOR_PAIR(gameInfo.snakeColor));
                 mvaddch(row, column, 'S');
@@ -211,6 +247,69 @@ void difficultyMenu()
     }    
 }
 
+void playerMenu()
+{
+    char c;
+    
+    while(TRUE)
+    {
+        // Print player menu Message
+        mvprintw(((NROWS-1)/2-1), ((NCOLS-1)/2-7), "Choose Player");
+        
+        attron(COLOR_PAIR(2));
+        mvprintw(((NROWS-1)/2+1), ((NCOLS-1)/2-9), "1.");                
+        mvprintw(((NROWS-1)/2+2), ((NCOLS-1)/2-11), "Snake");
+        attroff(COLOR_PAIR(2));
+        
+        attron(COLOR_PAIR(1));
+        mvprintw(((NROWS-1)/2+2), ((NCOLS-1)/2-3), "Worm");
+        mvprintw(((NROWS-1)/2+1), ((NCOLS-1)/2-2), "2.");
+        attroff(COLOR_PAIR(1));
+        
+        attron(COLOR_PAIR(3));
+        mvprintw(((NROWS-1)/2+2), ((NCOLS-1)/2+4), "Both");
+        mvprintw(((NROWS-1)/2+1), ((NCOLS-1)/2+5), "3.");
+        attroff(COLOR_PAIR(3));
+
+        // Turn on delay
+        nodelay(stdscr, FALSE);
+
+        // Get a character
+        cout << "Waiting for difficulty...\n";
+        c = getch();
+        cout << "Difficulty " << c << " received!\n\n";
+
+        // Turn off delay
+            nodelay(stdscr, TRUE);
+            
+        // Make sure character is a valid difficulty
+        if (c == '1')
+        {
+            // Update player preference
+            gameInfo.preference = SNAKE;
+           
+            // Exit function
+            return;        
+        }
+        else if (c == '2')
+        {
+            // Update player preference
+            gameInfo.preference = WORM;
+
+            // Exit function
+            return;        
+        }
+        else if (c == '3')
+        {
+            // Update player preference
+            gameInfo.preference = BOTH;
+
+            // Exit function
+            return;        
+        }
+    }
+}
+
 // Call appropriate post game screen
 void postGame(Res x)
 {
@@ -231,10 +330,17 @@ void postGame(Res x)
 }
 
 // Print the results of the game
-void results(int &bestLength, int &bestEaten, int userLength, int userEaten)
+void results(int &bestLength, int &bestEaten, int snakeLength, int wormLength, \
+        int userEaten)
 {
     // Debug output variable
     int c;
+    
+    // Length to be displayed
+    int userLength;
+    
+    // Add user's lengths
+    userLength = snakeLength = wormLength;
     
     // Print appropriate end screen
     cout << "Starting post game display...\n";
