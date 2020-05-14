@@ -21,10 +21,13 @@ void gameOver();
 // “Press any Key” Function
 void keypress();
 
+// Post Difficulty Menu
+void difficultyMenu();
+
 // Call appropriate post game screen
 void postGame(Res x);
 
 // Print the results of the game
-void results();
+void results(int &bestLength, int &bestEaten, int userLength, int userEaten);
 
 #endif /* DISPLAY_HPP */
