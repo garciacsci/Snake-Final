@@ -29,7 +29,8 @@ Snake::Snake()
     headCol = (NCOLS-1)/2;
     
     // Store length of snake
-    length = 5;
+    length=5;    
+    cout << "Length of the snake is: " << length << "\n\n";
     
     // Exit function
     return;
@@ -43,6 +44,7 @@ Snake::Snake(int l)
     
     // Store length of snake
     length = l;
+    cout << "Length of the snake is: " << length << "\n\n";
     
     // Start from the top left and 
     while(row<NROWS && l>0)
@@ -77,7 +79,9 @@ Snake::Snake(int l)
     headRow = row;
     headCol = column;
     
-    
+    // Change direction to down
+    direction=DOWN;
+        
     // Exit function
     return;
 }
@@ -88,8 +92,8 @@ void Snake::move()
     // Declare variables
     int ch=0;
     
-    // Game speed
-    usleep(gameInfo.speed*(500000/50));
+    // Game speed (to help capture inputs)
+    usleep(gameInfo.speed*(5000));
     
     cout << "headrow is: " << headRow << endl;
     cout << "headcol is: " << headCol << "\n\n";
@@ -100,67 +104,42 @@ void Snake::move()
     cout << "Character is: " << ch << "\n\n";
     
     // Move snake accordingly
-    if(ch == KEY_UP)
+    if(ch == KEY_UP && direction != DOWN)
         { 
-            if (headRow-1 >=0 && direction != DOWN)
-            {
-                headRow--; 
-                direction = UP;
-            }
+            headRow--; 
+            direction = UP;
         }
-    else if(ch == KEY_DOWN)
-        {                          
-            if (headRow+1 < NROWS && direction != UP)
-            {
-                headRow++; 
-                direction = DOWN;
-            }
+    else if(ch == KEY_DOWN && direction != UP)
+        {      
+            headRow++; 
+            direction = DOWN;
         }
-    else if(ch == KEY_LEFT)
-        {                             
-            if (headCol-1 > 0 && direction != RIGHT)
-            {
-                headCol--;    
-                direction = LEFT;
-            }
+    else if(ch == KEY_LEFT && direction != RIGHT)
+        {
+            headCol--;    
+            direction = LEFT;
         } 
     else if(ch == KEY_RIGHT && direction != LEFT)
-        {                                
-            if (headCol+1 < NCOLS)
-            {
-                headCol++;  
-                direction = RIGHT;
-            }
+        {
+            headCol++;  
+            direction = RIGHT;
         }    
     else if(direction == UP && direction != DOWN)                         
         {
-            if (headRow-1 >0)
-            {
-                headRow--;
-            }
+            headRow--;
         }            
     else if(direction == DOWN && direction != UP)
-        {              
-            if (headRow+1 < NROWS)
-            {
-                headRow++;      
-            }
+        {  
+            headRow++;   
         }
     else if(direction == LEFT && direction != RIGHT)
         {                        
-            if (headCol-1 > 0)
-            {
-                headCol--;     
-            }
+            headCol--;     
         } 
-    else if(direction == RIGHT)
-        {       
-            if (headCol+1 < NCOLS && direction != LEFT)
-            {
-                headCol++;     
-            }
-        }          
-    cout << "Moved Snake\n\n";
+    else if(direction == RIGHT && direction != LEFT)
+        {   
+            headCol++;     
+        }    
         
     // Exit function
         return;
@@ -188,8 +167,7 @@ void Snake::decrementSnake()
         for (column=0; column<NCOLS; column++)
         {
             if (gameInfo.board[row][column]>0)
-            {
-                cout << "Element Decremented!\n";
+            {                
                 --gameInfo.board[row][column];
             }
         }
@@ -207,7 +185,100 @@ void Snake::incrementSnakeLength()
 }
 
 // Returns the length of the snake plus one
-int Snake::tempHead()
+int Snake::snakeLength()
 {
-    return (length+1);
+    return(length);
 }
+
+// Cuts the snake in half
+void Snake::cut()
+{
+    // Declare Variables
+    int row=0, column=0;        
+    
+    // Update head position
+    if(direction == UP && direction != DOWN)                         
+        {
+            headRow++;
+        }            
+    else if(direction == DOWN && direction != UP)
+        {  
+            headRow--;   
+        }
+    else if(direction == LEFT && direction != RIGHT)
+        {                        
+            headCol++;     
+        } 
+    else if(direction == RIGHT && direction != LEFT)
+        {   
+            headCol--;     
+        }
+    
+    // Set the "lower half" of the snake to 0    
+    while (row<NROWS)
+    {
+        for (column=0; column<NCOLS; column++)
+        {
+            if (gameInfo.board[row][column] > 0 && \
+                    gameInfo.board[row][column]< (length-1))
+            {                
+                gameInfo.board[row][column]=0;
+            }
+        }
+        row++;    
+    }        
+    
+    // Reinitialize variables
+    row = 0;
+    column = 0;
+    
+    while (row<NROWS)
+    {
+        for (column=0; column<NCOLS; column++)
+        {
+            if (gameInfo.board[row][column] > 0)
+            {                
+                gameInfo.board[row][column]=1;
+            }
+        }
+        row++;    
+    }
+    
+    // Update snake length
+    length = 1;
+    
+    // Correct the snake offset
+    //correct();
+                    
+    // Exit function
+    return;
+}
+
+// Correct Snake offset after being cut
+/*void Snake::correct()
+{
+    // Delcare variables
+    int row = 0, column = 0; 
+    
+    // Fix the offset of the remaining snake    
+    while (row<NROWS)
+    {
+        for (column=0; column<NCOLS; column++)
+        {
+            if (gameInfo.board[row][column]> 0)
+            {                
+                gameInfo.board[row][column] -= (length/2);
+            }
+        }
+        row++;    
+    }
+        
+    // Update snake length
+    if (length%2 == 0)
+        length = length/2;
+    else
+        length = length/2-1;
+    
+    // Exit function
+    return;
+}*/
