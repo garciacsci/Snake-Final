@@ -1,4 +1,11 @@
-/* Declares an “apple” class to store relevant apple information */
+/* Snake apple.hpp */
+
+/* 
+ * File:    apple.hpp
+ * Author:  Christopher Garcia
+ * Purpose: Declares an “apple” class to store relevant apple information
+ * Date:    14 May 2020
+ */
 
 #ifndef APPLE_HPP
 #define APPLE_HPP
