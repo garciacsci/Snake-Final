@@ -1,7 +1,7 @@
-/* Snake boulder.cpp */
+/* Snake boulder.hpp */
 
 /* 
- * File:    boulder.cpp
+ * File:    boulder.hpp
  * Author:  Christopher Garcia
  * Purpose: Declares a “boulder” class to store relevant boulder information
  * Date:    14 May 2020
